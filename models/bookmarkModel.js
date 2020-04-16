@@ -21,7 +21,7 @@ const BookmarkSchema = new mongoose.Schema({
   Tags: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "TagsSet",
+      ref: "Tags",
     },
   ],
 });

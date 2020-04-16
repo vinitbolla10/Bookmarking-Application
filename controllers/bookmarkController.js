@@ -28,6 +28,21 @@ const remove = (req, res) => {
   });*/
 };
 
+const update = (req, res, next) => {
+  let bookmark = req.params.id;
+  bookmark = _.extend(bookmark, req.body)
+  bookmark.updated = Date.now()
+  bookmark.save((err, result) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+    Console.log(err);
+    res.json(result);
+  })
+};
+
 const list = (req, res) => {
   Bookmark.find((err, Bookmarks) => {
     if (err) {
@@ -37,11 +52,12 @@ const list = (req, res) => {
     }
 
     res.json(Bookmarks);
-  });
+  }).populate('Tags', '_id Title');
 };
 
 module.exports = {
   create,
   remove,
   list,
+  update
 };
